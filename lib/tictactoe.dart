@@ -43,7 +43,6 @@ class _TicTacToePageState extends State<TicTacToePage> {
     textStyle: TextStyle(color: Colors.white, letterSpacing: 3, fontSize: 15),
   );
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +66,6 @@ class _TicTacToePageState extends State<TicTacToePage> {
                         ],
                       ),
                     ),
-
                     Container(
                       padding: EdgeInsets.all(8.0),
                       child: Column(
@@ -96,10 +94,8 @@ class _TicTacToePageState extends State<TicTacToePage> {
                 ),
               ),
             ),
-
             Expanded(
               flex: 3,
-
               child: GridView.builder(
                   padding: EdgeInsets.all(10),
                   itemCount: 9,
@@ -114,8 +110,7 @@ class _TicTacToePageState extends State<TicTacToePage> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey)),
                           child: Center(
-                            child: Text(
-                                displayXO[index],
+                            child: Text(displayXO[index],
                                 style: myNewFontWhite.copyWith(fontSize: 30)),
                           )),
                     );
@@ -139,11 +134,11 @@ class _TicTacToePageState extends State<TicTacToePage> {
     setState(() {
       if (oTurn && displayXO[index] == '') {
         displayXO[index] = 'O';
-        click +=1;
+        click += 1;
         oTurn = !oTurn;
       } else if (!oTurn && displayXO[index] == '') {
         displayXO[index] = 'X';
-        click +=1;
+        click += 1;
         oTurn = !oTurn;
       }
       _checkWinner();
@@ -207,7 +202,7 @@ class _TicTacToePageState extends State<TicTacToePage> {
     }
   }
 
-  void _showDialog(){
+  void _showDialog() {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -245,19 +240,18 @@ class _TicTacToePageState extends State<TicTacToePage> {
             ],
           );
         });
-    if (winner == "O"){
-      oScore +=1;
+    if (winner == "O") {
+      oScore += 1;
       oTurn = false;
-    }
-    else if (winner == "X"){
-      xScore +=1;
+    } else if (winner == "X") {
+      xScore += 1;
       oTurn = true;
     }
   }
 
-  void _clear (){
+  void _clear() {
     setState(() {
-      for (int i=0; i < 9; i++) {
+      for (int i = 0; i < 9; i++) {
         displayXO[i] = "";
       }
     });

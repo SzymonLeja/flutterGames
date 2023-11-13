@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:games_app/snake.dart';
 import 'package:games_app/tictactoe.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +21,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   List<Color> cellColors = [];
   static final myNewFont = GoogleFonts.pressStart2p(
@@ -36,16 +38,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
-    )..addListener(() {
-      updateColors();
-    })..repeat();
+    )
+      ..addListener(() {
+        updateColors();
+      })
+      ..repeat();
     initializeColors();
   }
 
   void initializeColors() {
     for (int i = 0; i < 2000; i++) {
       if (Random().nextDouble() < 0.1) {
-        cellColors.add(Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+        cellColors
+            .add(Colors.primaries[Random().nextInt(Colors.primaries.length)]);
       } else {
         cellColors.add(Colors.grey[900]!);
       }
@@ -55,7 +60,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void updateColors() {
     for (int i = 0; i < cellColors.length; i++) {
       if (cellColors[i] != Colors.grey[900]) {
-        cellColors[i] = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+        cellColors[i] =
+            Colors.primaries[Random().nextInt(Colors.primaries.length)];
       }
     }
     setState(() {});
@@ -118,9 +124,34 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
                       color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                       child: Text(
                         'Kółko i krzyżyk',
+                        style: myNewFont.copyWith(fontSize: 19),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SnakeGamePage()),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      color: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Text(
+                        'Snake',
                         style: myNewFont.copyWith(fontSize: 19),
                       ),
                     ),
