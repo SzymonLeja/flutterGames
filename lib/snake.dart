@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:games_app/highscore_db.dart';
 
-void main() {
+void main() async {
   runApp(SnakeGame());
 }
 
@@ -29,6 +30,8 @@ class SnakeGamePage extends StatefulWidget {
 
 class _SnakeGamePageState extends State<SnakeGamePage> {
   static List<int> snakePosition = [45, 65, 85, 105, 125];
+  final db = HighscoreDB();
+  int highscore = 0;
   int numberOfSquares = 760;
   static var randomNumber = Random();
   int food = randomNumber.nextInt(700);
@@ -51,6 +54,10 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
 
   void startGame() {
     snakePosition = [45, 65, 85, 105, 125];
+    Future<List<Map<String, dynamic>>> highscoreMap =
+        db.getHighscore(game: "snake");
+    // ignore: avoid_print
+    highscoreMap.then((value) => (highscore = value[0]['score']));
     const duration = Duration(milliseconds: 300);
     _timer = Timer.periodic(duration, (Timer timer) {
       if (mounted) {
@@ -124,12 +131,17 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
   void _showGameOverScreen() {
     if (!_gameOver) {
       _gameOver = true;
+      if (highscore < snakePosition.length - 5) {
+        db.insertHighscore("snake", snakePosition.length - 5);
+      }
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Game Over'),
-            content: Text('You\'re score: ${snakePosition.length - 5}'),
+            content: Text('Your score: ${snakePosition.length - 5} \n' +
+                '${(snakePosition.length - 5 > highscore) ? 'New Highscore: ${snakePosition.length - 5}' : 'Highscore: $highscore'} \n'),
             actions: <Widget>[
               TextButton(
                 child: Text('Play Again'),
@@ -230,6 +242,13 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
               ),
               Text(
                 'Score: ${snakePosition.length - 5}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+              Text(
+                'Highscore ${highscore}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

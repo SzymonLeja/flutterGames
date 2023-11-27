@@ -158,6 +158,30 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SnakeGamePage()),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      color: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Text(
+                        'Tetris',
+                        style: myNewFont.copyWith(fontSize: 19),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
