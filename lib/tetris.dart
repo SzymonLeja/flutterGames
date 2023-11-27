@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:games_app/highscore_db.dart';
 import 'package:games_app/piece.dart';
 import 'package:games_app/pixel.dart';
 import 'package:games_app/values.dart';
@@ -20,6 +21,8 @@ class _TetrisState extends State<Tetris> {
   Piece currentPiece = Piece(type: Tetromino.L);
   Timer? _timer = null;
   int currentScore = 0;
+  final db = HighscoreDB();
+  int highscore = 0;
   bool gameOver = false;
 
   @override
@@ -36,7 +39,10 @@ class _TetrisState extends State<Tetris> {
 
   void startGame() {
     currentPiece.initializePiece();
-
+    Future<List<Map<String, dynamic>>> highscoreMap =
+        db.getHighscore(game: "tetris");
+    highscoreMap.then(
+        (value) => (highscore = value.length > 0 ? value[0]['score'] : 0));
     Duration frameRate = const Duration(milliseconds: 300);
     gameLoop(frameRate);
   }
@@ -58,12 +64,16 @@ class _TetrisState extends State<Tetris> {
   }
 
   void showGameOverDialog() {
+    if (highscore < currentScore) {
+      db.insertHighscore("tetris", currentScore);
+    }
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Game Over'),
-            content: Text('Your score: $currentScore'),
+            content: Text('Your score: $currentScore \n' +
+                '${highscore < currentScore ? 'New Highscore: currentscore' : 'Highscore: $highscore'}'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -245,7 +255,7 @@ class _TetrisState extends State<Tetris> {
                   children: [
                     Text('Score: $currentScore',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
-                    Text('Highscore: $currentScore',
+                    Text('Highscore: $highscore',
                         style: TextStyle(color: Colors.white, fontSize: 20))
                   ])),
         ]));
