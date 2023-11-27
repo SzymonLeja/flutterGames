@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:games_app/snake.dart';
+import 'package:games_app/tetris.dart';
 import 'package:games_app/tictactoe.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -162,7 +163,7 @@ class _HomePageState extends State<HomePage>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SnakeGamePage()),
+                    MaterialPageRoute(builder: (context) => const Tetris()),
                   );
                 },
                 child: Container(
