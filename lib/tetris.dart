@@ -73,7 +73,7 @@ class _TetrisState extends State<Tetris> {
           return AlertDialog(
             title: Text('Game Over'),
             content: Text('Your score: $currentScore \n' +
-                '${highscore < currentScore ? 'New Highscore: currentscore' : 'Highscore: $highscore'}'),
+                '${highscore < currentScore ? 'New Highscore: $currentScore' : 'Highscore: $highscore'}'),
             actions: [
               TextButton(
                 onPressed: () {

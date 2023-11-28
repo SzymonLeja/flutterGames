@@ -58,8 +58,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
         db.getHighscore(game: "snake");
     // ignore: avoid_print
     highscoreMap.then(
-     (value) => (highscore = value.length > 0 ? value[0]['score'] : 0));
-    );
+        (value) => (highscore = value.length > 0 ? value[0]['score'] : 0));
     const duration = Duration(milliseconds: 300);
     _timer = Timer.periodic(duration, (Timer timer) {
       if (mounted) {
